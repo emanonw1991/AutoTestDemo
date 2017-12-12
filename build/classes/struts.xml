@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN" "http://struts.apache.org/dtds/struts-2.5.dtd" >
+<struts>
+	<!-- Action拦截器权限控制 ，全局控制-->
+	<package name="my_interceptors" extends="struts-default" namespace="/">
+		<interceptors>
+			<!-- Action权限控制拦截器 -->
+			<interceptor name="loginInterceptor" class="com.autotest.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="my_interceptor_stack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="my_interceptor_stack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="login">UserLogin.jsp</result>
+		</global-results>
+	</package>
+ 	
+ 	<!-- 登陆界面所在包，不进行权限控制 -->
+	<package name="login" extends="struts-default" namespace="/">
+		<action name="userLoginAction" class="com.autotest.action.UserLoginAction">
+			<result name="success">Step.jsp</result>
+			<result name="error">UserLogin.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 除登陆界面以外的Action所在包，进行权限控制 -->
+	<package name="operation" extends="my_interceptors" namespace="/">
+		<global-results>
+			<result name="error">Error.jsp</result>
+			<result name="Exception">Error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="Exception" exception="java.lang.Throwable"/>
+		</global-exception-mappings>
+		
+		<action name="manageUserAction" class="com.autotest.action.ManageUserAction">
+			<result name="success">ManageUser.jsp</result>
+		</action>
+		
+		<action name="deleteUserAction" class="com.autotest.action.DeleteUserAction">
+			<result name="success" type="redirectAction">manageUserAction</result>
+		</action>
+		
+		<action name="managePasswordAction" class="com.autotest.action.ManagePasswordAction">
+			<result name="success" type="redirectAction">logoutAction</result>
+			<result name="input">ManagePassword.jsp</result>
+			<result name="step" type="redirectAction">manageUserAction</result>
+		</action>
+		
+		<action name="addUserAction" class="com.autotest.action.AddUserAction">
+			<result name="success" type="redirectAction">manageUserAction</result>
+		</action>
+		
+		<action name="userPasswordAction" class="com.autotest.action.UserPasswordAction">
+			<result name="success">ManagePassword.jsp</result>
+		</action>
+	
+		<!-- 查看测试结果Action -->
+		<action name="testResultAction" class="com.autotest.action.TestResultAction">
+			<result name="result">TestResult.jsp</result>
+		</action>
+		
+		<!-- 开启测试并上传文件Action -->
+		<action name="testLaunchAction" class="com.autotest.action.TestLaunchAction">
+			<result name="success" type="redirectAction">testResultAction</result>
+		</action>
+		
+		<!-- 文件下载Action -->
+		<action name="fileDownloadAction" class="com.autotest.action.FileDownloadAction">
+			<result name="success" type="stream">
+				<param name="contentType">application/x-download</param>
+				<param name="contentDisposition">attachment;filename=${downloadFileFileName }</param>
+				<param name="inputName">downloadFile</param>
+			</result>
+		</action>
+		
+		<!-- 响应手机请求Action -->
+		<action name="respondPhoneAction" class="com.autotest.action.RespondPhoneAction"></action>
+		
+		<!-- 注销Action -->
+		<action name="logoutAction" class="com.autotest.action.LogoutAction">
+			<result name="success">UserLogin.jsp</result>
+		</action>
+	</package>
+	 
+	 <!-- 测试包 -->
+	<package name="testGet" extends="my_interceptors" namespace="/">
+		<action name="testGet" class="test.TestGet">
+		</action>
+		<action name="test" class="test.Test"></action>
+	</package>
+</struts>

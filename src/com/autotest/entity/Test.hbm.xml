@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<!-- 测试实体Hibernate映射 -->
+	<class name="com.autotest.entity.Test" table="test" catalog="autotest">
+		<id name="id" type="java.lang.String">
+			<column name="Id" length="50"/>
+		</id>
+		<property name="versionId" type="java.lang.String">
+			<column name="VersionId" length="16"/>
+		</property>
+		<property name="type" type="java.lang.String">
+			<column name="Type" length="16"/>
+		</property>
+		<property name="serialNumber" type="java.lang.String">
+			<column name="SerialNumber" length="32"/>
+		</property>
+		<property name="state" type="java.lang.Integer">
+			<column name="State"/>
+		</property>
+		<property name="testSource" type="java.lang.String">
+			<column name="TestSource" length="16"/>
+		</property>
+		<property name="loginName" type="java.lang.String">
+			<column name="LoginName" length="32"/>
+		</property>
+	</class>
+</hibernate-mapping>
