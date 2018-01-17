@@ -68,7 +68,7 @@
 		<div class="form-group">
 			<label for="userPassword" class="col-sm-2 offset-sm-4">密码</label>
 			<div class="col-sm-4 offset-sm-4">
-				<input type="text" name="userPassword" class="form-control"
+				<input type="password" name="userPassword" class="form-control"
 					placeholder="请输入密码" required>
 			</div>
 		</div>
