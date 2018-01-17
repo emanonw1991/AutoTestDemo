@@ -29,7 +29,7 @@
 		</a>
 	</nav>
 
-	<h1 class="text-center py-5">vivo人脸识别自动化测试系统</h1>
+	<h1 class="text-center py-5">人脸识别自动化测试系统</h1>
 	<form action="userLoginAction" class="mx-auto form-horizontal col-sm-8"
 		method="post" role="form">
 		<div class="form-group">

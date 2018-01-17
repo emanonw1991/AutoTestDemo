@@ -84,9 +84,17 @@
 		当前密码：
 		<s:property value="loginPassword" />
 	</div>
+	<%
+		if (loginName != null && !loginName.equals("vivo")) {
+	%>
+	<div class="alert alert-info col-sm-2 offset-sm-5 text-center"
+		role="alert">提示：修改密码后需要重新登录</div>
+	<%
+		}
+	%>
 	<form action="managePasswordAction"
 		onsubmit="return validate_form(this)" method="post"
-		class="mx-auto form-horizontal pt-5 col-sm-8" role="form">
+		class="mx-auto form-horizontal col-sm-8" role="form">
 		<div class="form-group">
 			<label for="newPassword" class="col-sm-2 offset-sm-4">请输入新密码</label>
 			<div class="col-sm-4 offset-sm-4">
