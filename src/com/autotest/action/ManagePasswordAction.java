@@ -42,22 +42,4 @@ public class ManagePasswordAction extends ActionSupport {
 			return "step";
 		}
 	}
-
-	@Override
-	public void validate() {
-		// TODO Auto-generated method stub
-		if (getNewPassword() != null && getConfirmPassword() != null) {
-			if (!getNewPassword().equals(getConfirmPassword())) {
-				this.addFieldError("msg", "密码不一致！");
-			} else {
-				User user = (User) ActionContext.getContext().getSession().get("user");
-				String loginPassword = user.getLoginPassword();
-				if (getNewPassword().equals(loginPassword)) {
-					this.addFieldError("msg", "密码与原密码相同！");
-				}
-			}
-		}
-		super.validate();
-	}
-	
 }
