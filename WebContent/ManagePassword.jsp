@@ -31,9 +31,7 @@
 				confirmPassword.focus();
 				matchAlert.style.display = "";
 				return false
-			} else if (newPassword.value ==
-<%=request.getAttribute("loginPassword")%>
-	) {
+			} else if (newPassword.value == oldPassword.value) {
 				confirmPassword.focus();
 				sameAlert.style.display = "";
 				return false
@@ -78,6 +76,10 @@
 			<a href="logoutAction" class="btn btn-outline-success" role="button">注销</a>
 		</div>
 	</nav>
+	<%
+		String userName = (String) ActionContext.getContext().get("loginName");
+		if (userName != null && !userName.equals(loginName)) {
+	%>
 	<div class="alert alert-primary text-center" role="alert">
 		当前用户名：
 		<s:property value="loginName" />
@@ -85,9 +87,9 @@
 		<s:property value="loginPassword" />
 	</div>
 	<%
-		if (loginName != null && !loginName.equals("vivo")) {
+		} else {
 	%>
-	<div class="alert alert-info col-sm-2 offset-sm-5 text-center"
+	<div class="alert alert-info col-sm-2 offset-sm-5 text-center mt-3"
 		role="alert">提示：修改密码后需要重新登录</div>
 	<%
 		}
@@ -95,18 +97,37 @@
 	<form action="managePasswordAction"
 		onsubmit="return validate_form(this)" method="post"
 		class="mx-auto form-horizontal col-sm-8" role="form">
+		<%
+			if (userName != null && userName.equals(loginName)) {
+		%>
+		<div class="form-group">
+			<label for="oldPassword" class="col-sm-2 offset-sm-4">请输入旧密码</label>
+			<div class="col-sm-4 offset-sm-4">
+				<input id="oldPassword" type="text" name="oldPassword"
+					class="form-control" placeholder="旧密码" required>
+			</div>
+		</div>
+		<%
+			} else {
+		%>
+		<div class="form-group">
+			<input id="oldPassword" type="hidden" value="<%=request.getAttribute("loginPassword")%>">
+		</div>
+		<%
+			}
+		%>
 		<div class="form-group">
 			<label for="newPassword" class="col-sm-2 offset-sm-4">请输入新密码</label>
 			<div class="col-sm-4 offset-sm-4">
-				<input id="newPassword" type="text" name="newPassword"
+				<input id="newPassword" type="password" name="newPassword"
 					class="form-control" placeholder="新密码" required>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="confirmPassword" class="col-sm-2 offset-sm-4">请确认新密码</label>
+			<label for="confirmPassword" class="col-sm-2 offset-sm-4">请再次输入新密码</label>
 			<div class="col-sm-4 offset-sm-4">
-				<input id="confirmPassword" type="text" name="confirmPassword"
-					class="form-control" placeholder="确认新密码" required>
+				<input id="confirmPassword" type="password" name="confirmPassword"
+					class="form-control" placeholder="再次输入新密码" required>
 			</div>
 		</div>
 		<div class="form-group">
